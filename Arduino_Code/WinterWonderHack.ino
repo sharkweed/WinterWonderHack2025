@@ -45,12 +45,11 @@ class MyCallbacks: public BLECharacteristicCallbacks {
             int duration = atoi(value.c_str());
 
             // Ensure the angle is within the servo's range (0 to 180 degrees)
-            for (int i = 0; i < duration*4; i++) {
-                int angle = random(95);
-                mouth.write(angle);
-                Serial.print("Moving servo to: ");
-                Serial.println(angle);
-                delay(250);
+            for (int i = 0; i < duration*2; i++) {
+                mouth.write(50 + random(0, 10));
+                delay(240 + random(, 0, 20));
+                mouth.write(20 + random(0, 10));
+                delay(240 + random(0, 20));
             }
         }
     }
@@ -95,16 +94,4 @@ void setup() {
   BLEDevice::startAdvertising();
   
   Serial.println("Waiting for a client connection...");
-}
-
-void loop() {
-  if (deviceConnected) {
-    // You can add code here to handle incoming data
-    if (Serial.available()) {
-      String message = Serial.readStringUntil('\n');
-      Serial.println(message.c_str());
-      Serial.println("testing");
-      mouth.write(message.toInt());
-    }
-  }
 }
